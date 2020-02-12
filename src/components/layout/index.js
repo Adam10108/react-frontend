@@ -56,7 +56,7 @@ const BaseLayout = (props: Props) => {
         <Dropdown overlay={menu} placement="bottomCenter">
           <div>
             <IconStyled user type="user" />
-            <StyledText>Usaername</StyledText>
+            <StyledText>User</StyledText>
           </div>
         </Dropdown>
       </Header>
