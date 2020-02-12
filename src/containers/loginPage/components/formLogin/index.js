@@ -1,6 +1,11 @@
-import { Form, Input, Button } from 'antd'
-import React from 'react'
+import { Form, Input, Button, notification } from 'antd'
+import { Redirect } from 'react-router-dom'
+import * as R from 'ramda'
+import React, { useState } from 'react'
 import styled from '@emotion/styled'
+
+import { login } from '../../../../core/models/auth'
+import { setToken } from '../../../../core/localStores'
 
 const StyledFormLoginLayout = styled.div`
   height: 300px;
@@ -71,10 +76,52 @@ const StyledBtnCheck = styled(Button)`
   }
 `
 
+notification.config({
+  placement: 'topRight',
+  top: 80,
+  duration: 2
+})
+
+const openNotificationWithIcon = (type, message, description) => {
+  notification[type]({
+    message,
+    description
+  })
+}
+
 const FormLogin = props => {
+  const [loginSuccess, setLoginSuccess] = useState(false)
+
+  const handleSubmit = e => {
+    e.preventDefault()
+    props.form.validateFields(async (err, values) => {
+      if (!err) {
+        const { username, password } = values
+        const data = {
+          username,
+          password
+        }
+
+        try {
+          const resp = await login(data)
+          const { token } = R.path(['data'], resp)
+          setLoginSuccess(true)
+          setToken('token', token)
+        } catch (error) {
+          openNotificationWithIcon(
+            'warning',
+            'Login Failed!!!.',
+            'Enter Username or Password again.'
+          )
+        }
+      }
+    })
+  }
+
   const { getFieldDecorator } = props.form
   return (
     <StyledFormLoginLayout>
+      {loginSuccess && <Redirect to="/home" />}
       <StyledHeader>
         <StyledText header>Login</StyledText>
       </StyledHeader>
@@ -84,18 +131,33 @@ const FormLogin = props => {
         <StyledFromItem>
           {getFieldDecorator('username', {
             rules: [{ required: true, message: 'Please input your Username!' }]
-          })(<Input placeholder="Enter Username" autoFocus />)}
+          })(
+            <Input
+              placeholder="Enter Username"
+              autoFocus
+              onPressEnter={e => handleSubmit(e)}
+            />
+          )}
         </StyledFromItem>
 
         <StyledText>Password</StyledText>
         <StyledFromItem>
           {getFieldDecorator('password', {
             rules: [{ required: true, message: 'Please input your Password!' }]
-          })(<Input type="password" placeholder="Enter Password" autoFocus />)}
+          })(
+            <Input
+              type="password"
+              placeholder="Enter Password"
+              autoFocus
+              onPressEnter={e => handleSubmit(e)}
+            />
+          )}
         </StyledFromItem>
 
         <StyledFooter>
-          <StyledBtnCheck name="Login">Submit</StyledBtnCheck>
+          <StyledBtnCheck name="Login" onClick={e => handleSubmit(e)}>
+            Submit
+          </StyledBtnCheck>
         </StyledFooter>
       </Form>
     </StyledFormLoginLayout>
