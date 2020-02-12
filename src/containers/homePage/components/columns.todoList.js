@@ -45,7 +45,7 @@ const StyledTextTable = styled(StyledText)`
 const columnConfig = (handleOpenModal, setIsLoading, reloadData) => {
   const { confirm } = Modal
 
-  const handleDeleteUser = async row => {
+  const handleDeleteTodo = async row => {
     confirm({
       title: 'Delete TODO',
       content: 'Are you sure delete this TODO!!',
@@ -109,7 +109,7 @@ const columnConfig = (handleOpenModal, setIsLoading, reloadData) => {
         return (
           <Row type="flex" justify="start">
             <StyledButton
-              onClick={() => handleDeleteUser(R.path(['_id'], row))}
+              onClick={() => handleDeleteTodo(R.path(['_id'], row))}
             >
               Delete
             </StyledButton>
