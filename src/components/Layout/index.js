@@ -1,7 +1,6 @@
 // @flow
 import { Layout, Dropdown, Menu, Icon } from 'antd'
 import { Link, withRouter } from 'react-router-dom'
-import * as R from 'ramda'
 import React from 'react'
 import styled from '@emotion/styled'
 

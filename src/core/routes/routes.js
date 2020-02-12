@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import React from 'react'
 
+import GuardRoute from './guard'
 import Home from '../../containers/homePage'
 import Login from '../../containers/loginPage'
 
@@ -9,7 +10,7 @@ const Routes = () => {
     <Router>
       <Switch>
         <Route exact path="/" component={Login} />
-        <Route exact path="/home" component={Home} />
+        <GuardRoute path="/home" component={Home} />
       </Switch>
     </Router>
   )
