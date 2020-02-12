@@ -8,7 +8,7 @@ import { login } from '../../../../core/models/auth'
 import { setToken } from '../../../../core/localStores'
 
 const StyledFormLoginLayout = styled.div`
-  height: 300px;
+  height: 350px;
   width: 400px;
 
   position: absolute;
