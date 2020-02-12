@@ -25,6 +25,9 @@
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "off",
     "no-underscore-dangle": "off",
-    "import/prefer-default-export": "off"
+    "import/prefer-default-export": "off",
+    "react/jsx-props-no-spreading": "off",
+    "next-line no-undef": "off",
+    "react/no-unused-prop-types": "off"
   }
 }
