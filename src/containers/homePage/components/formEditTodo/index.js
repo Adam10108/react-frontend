@@ -4,7 +4,7 @@ import * as R from 'ramda'
 import React from 'react'
 import styled from '@emotion/styled'
 
-import { addTodo } from '../../../../core/models/todoList/index'
+import { updateTodo } from '../../../../core/models/todoList/index'
 
 const StyledHeader = styled.div`
   display: flex;
@@ -67,14 +67,21 @@ type Props = {
   setModalAddOpen: Function,
   setIsLoading: Function,
   reloadData: Function,
-  setStatus: Function
+  setStatus: Function,
+  selectedRow: {}
 }
 
-const FormAddTodo = (props: Props) => {
-  const { setModalAddOpen, setIsLoading, reloadData, setStatus } = props
+const FormEditTodo = (props: Props) => {
+  const {
+    setModalEditOpen,
+    setIsLoading,
+    reloadData,
+    setStatus,
+    selectedRow
+  } = props
 
   const handleCancel = () => {
-    setModalAddOpen(false)
+    setModalEditOpen(false)
   }
 
   const handleSubmit = e => {
@@ -86,9 +93,9 @@ const FormAddTodo = (props: Props) => {
         }
         try {
           setIsLoading(true)
-          await addTodo(todoData)
+          await updateTodo(R.path(['_id'], selectedRow), todoData)
           reloadData()
-          setModalAddOpen(false)
+          setModalEditOpen(false)
           setIsLoading(false)
         } catch (error) {
           setStatus(R.path(['response', 'status'], error))
@@ -102,13 +109,14 @@ const FormAddTodo = (props: Props) => {
   return (
     <>
       <StyledHeader>
-        <StyledText header>Create TODO</StyledText>
+        <StyledText header>Update TODO</StyledText>
       </StyledHeader>
 
       <Form>
         <StyledText>Title</StyledText>
         <StyledFromItem>
           {getFieldDecorator('title', {
+            initialValue: R.path(['title'], selectedRow),
             rules: [
               { required: true, message: 'Please input your title todo!' }
             ]
@@ -124,6 +132,7 @@ const FormAddTodo = (props: Props) => {
         <StyledText>Description</StyledText>
         <StyledFromItem>
           {getFieldDecorator('description', {
+            initialValue: R.path(['description'], selectedRow),
             rules: [
               { required: true, message: 'Please input your description todo!' }
             ]
@@ -147,5 +156,5 @@ const FormAddTodo = (props: Props) => {
   )
 }
 
-const WrappedAddTodoForm = Form.create()(FormAddTodo)
-export default WrappedAddTodoForm
+const WrappedEditTodoForm = Form.create()(FormEditTodo)
+export default WrappedEditTodoForm
