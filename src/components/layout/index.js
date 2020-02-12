@@ -5,7 +5,7 @@ import React from 'react'
 import styled from '@emotion/styled'
 
 import { clearToken } from '../../core/localStores'
-import Header from '../Header'
+import Header from '../header'
 
 const StyledBackgruond = styled(Layout)`
   height: 100vh;

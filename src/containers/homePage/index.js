@@ -6,7 +6,7 @@ import { getTodo } from '../../core/models/todoList'
 import { useGetTodo } from '../../core/hooks'
 import FormAddTodo from './components/formAddTodo'
 import HeaderBar from './components/headerBar'
-import MainLayout from '../../components/Layout'
+import MainLayout from '../../components/layout'
 import Modal from '../../components/modal'
 
 const StyledContentLayout = styled.div`
